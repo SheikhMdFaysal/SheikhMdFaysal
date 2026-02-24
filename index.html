@@ -86,6 +86,51 @@
     .nav-links a:hover { color: var(--text); }
     .nav-links a:hover::after { width: 100%; }
 
+    /* ─── Hero Avatar ───────────────────────────────────────── */
+    .hero-avatar {
+      position: relative;
+      width: 150px;
+      height: 150px;
+      margin: 0 auto 2rem;
+      animation: fadeUp .8s ease both;
+    }
+
+    .hero-avatar-ring {
+      position: absolute;
+      inset: -3px;
+      border-radius: 50%;
+      background: conic-gradient(from 0deg, var(--accent), var(--accent2), #4f46e5, var(--accent));
+      animation: spin 7s linear infinite;
+      z-index: 0;
+    }
+
+    .hero-avatar-glow {
+      position: absolute;
+      inset: -18px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(124,58,237,.35) 0%, rgba(6,182,212,.15) 50%, transparent 70%);
+      z-index: -1;
+      animation: pulse 4s ease-in-out infinite alternate;
+    }
+
+    .hero-avatar img {
+      width: 144px;
+      height: 144px;
+      border-radius: 50%;
+      object-fit: cover;
+      object-position: center top;
+      position: absolute;
+      top: 3px;
+      left: 3px;
+      z-index: 1;
+      border: 3px solid var(--bg);
+    }
+
+    @keyframes spin {
+      from { transform: rotate(0deg); }
+      to   { transform: rotate(360deg); }
+    }
+
     /* ─── Hero ──────────────────────────────────────────────── */
     #hero {
       min-height: 100vh;
@@ -777,6 +822,11 @@
   <!-- HERO -->
   <section id="hero">
     <div>
+      <div class="hero-avatar">
+        <div class="hero-avatar-ring"></div>
+        <div class="hero-avatar-glow"></div>
+        <img src="WhatsApp%20Image%202026-02-18%20at%2012.26.44%20AM.jpeg" alt="Sheikh Md Faysal" />
+      </div>
       <div class="hero-tag">Open to opportunities · Jersey City, NJ</div>
       <h1 class="hero-title">
         Sheikh Md Faysal<br><span>Data & Business Analytics</span>
