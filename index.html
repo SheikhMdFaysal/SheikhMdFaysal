@@ -85,6 +85,39 @@
       background-clip: text;
     }
 
+    .nav-links {
+      display: flex;
+      gap: 1.5rem;
+      list-style: none;
+    }
+
+    .nav-links a {
+      color: var(--muted);
+      text-decoration: none;
+      font-size: .9rem;
+      font-weight: 500;
+      transition: color .2s;
+      position: relative;
+    }
+
+    .nav-links a::after {
+      content: '';
+      position: absolute;
+      bottom: -4px; left: 0;
+      width: 0; height: 2px;
+      background: var(--accent);
+      transition: width .3s;
+      border-radius: 2px;
+    }
+
+    .nav-links a:hover {
+      color: var(--text);
+    }
+
+    .nav-links a:hover::after {
+      width: 100%;
+    }
+
     .nav-right {
       display: flex;
       align-items: center;
@@ -92,7 +125,12 @@
       z-index: 101;
     }
 
-    .theme-toggle, .mobile-menu-btn {
+    .theme-toggle {
+      z-index: 102;
+    }
+
+    .mobile-menu-btn {
+      display: none;
       z-index: 102;
     }
 
