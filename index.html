@@ -126,8 +126,42 @@
     }
 
     .theme-toggle {
+      width: 42px;
+      height: 42px;
+      border-radius: 10px;
+      border: 1px solid var(--border);
+      background: var(--surface);
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
       z-index: 102;
+      transition: border-color .2s, background .3s;
     }
+
+    .theme-toggle:hover {
+      border-color: var(--accent);
+    }
+
+    .theme-toggle svg {
+      width: 18px;
+      height: 18px;
+      stroke: var(--text);
+      fill: none;
+      stroke-width: 2;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+      transition: stroke .3s;
+    }
+
+    /* Default dark mode: show moon, hide sun */
+    .theme-toggle .sun { display: none; }
+    .theme-toggle .moon { display: block; }
+
+    /* Light mode: show sun, hide moon */
+    [data-theme="light"] .theme-toggle .sun { display: block; }
+    [data-theme="light"] .theme-toggle .moon { display: none; }
 
     .mobile-menu-btn {
       display: none;
@@ -199,6 +233,7 @@
     /* ─── Hero ──────────────────────────────────────────────── */
     #hero {
       text-align: center;
+      padding: 7rem 5vw 4rem;
     }
 
     .hero-tag {
@@ -740,8 +775,6 @@
       border-top: 1px solid var(--border);
     }
 
-    }
-
     /* ─── Mobile Menu ───────────────────────────────────────── */
     .mobile-menu-btn {
       display: none;
@@ -837,8 +870,9 @@
         display: flex;
       }
 
-      .hero {
+      #hero {
         padding-top: 5rem;
+        padding-bottom: 3rem;
       }
 
       .hero-avatar { 
@@ -927,6 +961,7 @@
         <li><a href="#experience">Experience</a></li>
         <li><a href="#projects">Projects</a></li>
         <li><a href="#education">Education</a></li>
+        <li><a href="#certifications">Certifications</a></li>
         <li><a href="#contact">Contact</a></li>
       </ul>
       <button class="theme-toggle" onclick="toggleTheme()" aria-label="Toggle theme">
@@ -1023,21 +1058,21 @@
           <div class="about-card-icon">📧</div>
           <div>
             <div class="about-card-label">Email</div>
-            <div class="about-card-value">sober.faysal@live.com</div>
+            <a href="mailto:sober.faysal@live.com" class="about-card-link">sober.faysal@live.com</a>
           </div>
         </div>
         <div class="about-card-row">
-          <div class="about-card-icon">🎓</div>
+          <div class="about-card-icon">🏫</div>
           <div>
             <div class="about-card-label">Student Email</div>
-            <div class="about-card-value">faysals1@montclair.edu</div>
+            <a href="mailto:faysals1@montclair.edu" class="about-card-link">faysals1@montclair.edu</a>
           </div>
         </div>
         <div class="about-card-row">
           <div class="about-card-icon">📱</div>
           <div>
             <div class="about-card-label">Phone</div>
-            <div class="about-card-value">(201) 526 5280</div>
+            <a href="tel:+12015265280" class="about-card-link">(201) 526-5280</a>
           </div>
         </div>
         <div class="about-card-row">
@@ -1312,7 +1347,7 @@
 
   <!-- FOOTER -->
   <footer>
-    <p>&copy; 2024 Sheikh Md Faysal. All rights reserved.</p>
+    <p>&copy; 2026 Sheikh Md Faysal. All rights reserved.</p>
   </footer>
 
   <script>
