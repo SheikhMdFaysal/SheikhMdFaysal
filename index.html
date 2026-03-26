@@ -4,20 +4,34 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Sheikh Md Faysal — Data Analytics Portfolio</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
   <style>
+    /* ─── CSS Variables ──────────────────────────────────────── */
+    :root {
+      --bg:         #0a0a0f;
+      --surface:    #12121a;
+      --border:     #1e1e2e;
+      --accent:     #7c3aed;
+      --accent2:    #06b6d4;
+      --text:       #e2e8f0;
+      --muted:      #64748b;
+      --font:       'Outfit', system-ui, sans-serif;
+    }
+
+    [data-theme="light"] {
+      --bg:         #f8fafc;
+      --surface:    #ffffff;
+      --border:     #e2e8f0;
+      --accent:     #7c3aed;
+      --accent2:    #0891b2;
+      --text:       #1e293b;
+      --muted:      #64748b;
+    }
+
     /* ─── Reset & Base ──────────────────────────────────────── */
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-
-    :root {
-      --bg:       #0a0a0f;
-      --surface:  #12121a;
-      --border:   #1e1e2e;
-      --accent:   #7c3aed;
-      --accent2:  #06b6d4;
-      --text:     #e2e8f0;
-      --muted:    #64748b;
-      --font:     'Segoe UI', system-ui, sans-serif;
-    }
 
     html { scroll-behavior: smooth; }
 
@@ -27,6 +41,7 @@
       font-family: var(--font);
       line-height: 1.6;
       overflow-x: hidden;
+      transition: background 0.3s, color 0.3s;
     }
 
     body::before {
@@ -38,6 +53,10 @@
       z-index: 0;
     }
 
+    [data-theme="light"] body::before {
+      opacity: 0.03;
+    }
+
     /* ─── Nav ───────────────────────────────────────────────── */
     nav {
       position: fixed;
@@ -46,28 +65,39 @@
       display: flex;
       justify-content: space-between;
       align-items: center;
-      padding: 1.25rem 5vw;
+      padding: 1rem 5vw;
       backdrop-filter: blur(16px);
       background: rgba(10,10,15,0.75);
       border-bottom: 1px solid var(--border);
+      transition: background 0.3s;
+    }
+
+    [data-theme="light"] nav {
+      background: rgba(248,250,252,0.9);
     }
 
     .nav-logo {
-      font-size: 1.15rem;
+      font-size: 1.25rem;
       font-weight: 700;
       background: linear-gradient(135deg, var(--accent), var(--accent2));
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
       background-clip: text;
-      letter-spacing: -0.5px;
     }
 
-    .nav-links { display: flex; gap: 1.75rem; list-style: none; }
+    .nav-right {
+      display: flex;
+      align-items: center;
+      gap: 1.5rem;
+    }
+
+    .nav-links { display: flex; gap: 1.5rem; list-style: none; }
 
     .nav-links a {
       color: var(--muted);
       text-decoration: none;
-      font-size: .875rem;
+      font-size: .85rem;
+      font-weight: 500;
       letter-spacing: .4px;
       transition: color .2s;
       position: relative;
@@ -86,98 +116,128 @@
     .nav-links a:hover { color: var(--text); }
     .nav-links a:hover::after { width: 100%; }
 
-    /* ─── Hero Avatar ───────────────────────────────────────── */
-    .hero-avatar {
-      position: relative;
-      width: 150px;
-      height: 150px;
-      margin: 0 auto 2rem;
-      animation: fadeUp .8s ease both;
+    /* Theme Toggle */
+    .theme-toggle {
+      width: 42px;
+      height: 42px;
+      border-radius: 10px;
+      border: 1px solid var(--border);
+      background: var(--surface);
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all .3s;
     }
 
-    .hero-avatar-ring {
-      position: absolute;
-      inset: -3px;
-      border-radius: 50%;
-      background: conic-gradient(from 0deg, var(--accent), var(--accent2), #4f46e5, var(--accent));
-      animation: spin 7s linear infinite;
-      z-index: 0;
+    .theme-toggle:hover {
+      border-color: var(--accent);
     }
 
-    .hero-avatar-glow {
-      position: absolute;
-      inset: -18px;
-      border-radius: 50%;
-      background: radial-gradient(circle, rgba(124,58,237,.35) 0%, rgba(6,182,212,.15) 50%, transparent 70%);
-      z-index: -1;
-      animation: pulse 4s ease-in-out infinite alternate;
+    .theme-toggle svg {
+      width: 20px;
+      height: 20px;
+      fill: var(--text);
     }
 
-    .hero-avatar img {
-      width: 144px;
-      height: 144px;
-      border-radius: 50%;
-      object-fit: cover;
-      object-position: center top;
-      position: absolute;
-      top: 3px;
-      left: 3px;
-      z-index: 1;
-      border: 3px solid var(--bg);
-    }
+    .theme-toggle .sun { display: none; }
+    .theme-toggle .moon { display: block; }
 
-    @keyframes spin {
-      from { transform: rotate(0deg); }
-      to   { transform: rotate(360deg); }
-    }
+    [data-theme="light"] .theme-toggle .sun { display: block; }
+    [data-theme="light"] .theme-toggle .moon { display: none; }
 
     /* ─── Hero ──────────────────────────────────────────────── */
     #hero {
       min-height: 100vh;
       display: flex;
+      flex-direction: column;
       align-items: center;
       justify-content: center;
       text-align: center;
-      padding: 6rem 5vw 4rem;
+      padding: 7rem 5vw 4rem;
       position: relative;
     }
 
     #hero::after {
       content: '';
       position: absolute;
-      width: 700px; height: 700px;
-      background: radial-gradient(circle, rgba(124,58,237,.13) 0%, transparent 70%);
-      top: 50%; left: 50%;
-      transform: translate(-50%, -60%);
+      width: 600px; height: 600px;
+      background: radial-gradient(circle, rgba(124,58,237,.15) 0%, transparent 70%);
       pointer-events: none;
-      animation: pulse 7s ease-in-out infinite alternate;
+      top: 45%; left: 50%;
+      transform: translate(-50%, -50%);
+      z-index: -1;
+    }
+
+    /* Profile Avatar */
+    .hero-avatar {
+      position: relative;
+      width: 180px;
+      height: 180px;
+      margin-bottom: 2rem;
+    }
+
+    .hero-avatar-ring {
+      position: absolute;
+      inset: -4px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, var(--accent), var(--accent2), #ec4899, var(--accent));
+      animation: spin 8s linear infinite;
+      z-index: 0;
+    }
+
+    .hero-avatar-glow {
+      position: absolute;
+      inset: -25px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(124,58,237,.4) 0%, rgba(6,182,212,.2) 50%, transparent 70%);
+      animation: pulse 3s ease-in-out infinite alternate;
+      z-index: -1;
+    }
+
+    .hero-avatar img {
+      width: 172px;
+      height: 172px;
+      border-radius: 50%;
+      object-fit: cover;
+      object-position: center top;
+      position: absolute;
+      top: 4px;
+      left: 4px;
+      z-index: 1;
+      border: 4px solid var(--bg);
+      animation: fadeInScale 1s ease both;
+    }
+
+    @keyframes fadeInScale {
+      from { opacity: 0; transform: scale(0.8); }
+      to { opacity: 1; transform: scale(1); }
+    }
+
+    @keyframes spin {
+      from { transform: rotate(0deg); }
+      to { transform: rotate(360deg); }
     }
 
     @keyframes pulse {
-      from { transform: translate(-50%, -60%) scale(1); opacity: .7; }
-      to   { transform: translate(-50%, -55%) scale(1.12); opacity: 1; }
+      from { opacity: 0.6; transform: scale(0.95); }
+      to { opacity: 1; transform: scale(1.05); }
     }
 
     .hero-tag {
-      display: inline-block;
-      font-size: .78rem;
-      letter-spacing: 2px;
-      text-transform: uppercase;
+      font-size: .75rem;
       color: var(--accent2);
-      border: 1px solid rgba(6,182,212,.3);
-      padding: .35rem 1rem;
-      border-radius: 999px;
-      margin-bottom: 1.5rem;
-      animation: fadeUp .8s ease both;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      margin-bottom: 1rem;
+      font-weight: 600;
     }
 
     .hero-title {
-      font-size: clamp(2.6rem, 6.5vw, 5rem);
+      font-size: clamp(2.5rem, 6vw, 4rem);
       font-weight: 800;
-      line-height: 1.07;
-      letter-spacing: -2px;
-      margin-bottom: 1.25rem;
-      animation: fadeUp .8s .15s ease both;
+      line-height: 1.1;
+      margin-bottom: .75rem;
     }
 
     .hero-title span {
@@ -188,579 +248,513 @@
     }
 
     .hero-sub {
-      font-size: 1.1rem;
+      font-size: 1.15rem;
       color: var(--muted);
-      max-width: 580px;
-      margin: 0 auto 2.5rem;
-      line-height: 1.85;
-      animation: fadeUp .8s .3s ease both;
+      max-width: 520px;
+      margin: 0 auto 2rem;
+      line-height: 1.7;
     }
 
     .hero-stats {
       display: flex;
       justify-content: center;
-      gap: 2.5rem;
+      gap: 3rem;
       margin-bottom: 2.5rem;
-      animation: fadeUp .8s .4s ease both;
     }
 
-    .hero-stat { text-align: center; }
+    .hero-stat {
+      text-align: center;
+    }
 
     .hero-stat .num {
       display: block;
-      font-size: 1.9rem;
-      font-weight: 800;
-      background: linear-gradient(135deg, var(--accent), var(--accent2));
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      background-clip: text;
-      line-height: 1;
+      font-size: 2.25rem;
+      font-weight: 700;
+      color: var(--accent2);
     }
 
     .hero-stat .label {
-      font-size: .78rem;
+      font-size: .75rem;
       color: var(--muted);
-      letter-spacing: .5px;
+      text-transform: uppercase;
+      letter-spacing: 1px;
     }
 
-    .hero-cta {
+    .hero-btns {
       display: flex;
-      gap: 1rem;
       justify-content: center;
+      gap: 1rem;
       flex-wrap: wrap;
-      animation: fadeUp .8s .5s ease both;
     }
 
     .btn {
-      display: inline-block;
-      padding: .75rem 2rem;
-      border-radius: 8px;
-      font-size: .925rem;
+      padding: .9rem 1.75rem;
+      border-radius: 10px;
       font-weight: 600;
+      font-size: .9rem;
       text-decoration: none;
-      transition: transform .2s, box-shadow .2s;
-      cursor: pointer;
-      border: none;
+      transition: all .3s;
     }
-
-    .btn:hover { transform: translateY(-2px); }
 
     .btn-primary {
-      background: linear-gradient(135deg, var(--accent), #4f46e5);
-      color: #fff;
-      box-shadow: 0 4px 24px rgba(124,58,237,.35);
+      background: linear-gradient(135deg, var(--accent), #6d28d9);
+      color: white;
     }
 
-    .btn-primary:hover { box-shadow: 0 6px 32px rgba(124,58,237,.55); }
+    .btn-primary:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 15px 35px rgba(124,58,237,.4);
+    }
 
-    .btn-ghost {
-      background: transparent;
-      color: var(--text);
+    .btn-secondary {
+      background: var(--surface);
       border: 1px solid var(--border);
+      color: var(--text);
     }
 
-    .btn-ghost:hover { border-color: var(--accent); color: var(--accent); }
-
-    .scroll-hint {
-      position: absolute;
-      bottom: 2rem; left: 50%;
-      transform: translateX(-50%);
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      gap: .4rem;
-      color: var(--muted);
-      font-size: .72rem;
-      letter-spacing: 1px;
-      animation: fadeIn 1s 1.2s ease both;
+    .btn-secondary:hover {
+      border-color: var(--accent);
+      color: var(--accent);
     }
 
-    .scroll-hint .mouse {
-      width: 22px; height: 36px;
-      border: 2px solid var(--muted);
-      border-radius: 12px;
-      display: flex;
-      justify-content: center;
-      padding-top: 6px;
-    }
-
-    .scroll-hint .mouse::before {
-      content: '';
-      width: 4px; height: 8px;
-      background: var(--muted);
-      border-radius: 2px;
-      animation: scrollDot 1.4s ease infinite;
-    }
-
-    @keyframes scrollDot {
-      0%   { transform: translateY(0); opacity: 1; }
-      100% { transform: translateY(10px); opacity: 0; }
-    }
-
-    /* ─── Section base ──────────────────────────────────────── */
+    /* ─── Sections ─────────────────────────────────────────── */
     .section-wrap {
-      padding: 6rem 5vw;
+      padding: 5rem 5vw;
       max-width: 1100px;
       margin: 0 auto;
       position: relative;
+      z-index: 1;
     }
 
     .section-label {
-      font-size: .72rem;
-      letter-spacing: 3px;
+      font-size: .7rem;
+      color: var(--accent);
       text-transform: uppercase;
-      color: var(--accent2);
-      margin-bottom: .6rem;
+      letter-spacing: 2px;
+      margin-bottom: .5rem;
+      font-weight: 600;
     }
 
     .section-title {
-      font-size: clamp(1.75rem, 3.5vw, 2.6rem);
-      font-weight: 800;
-      letter-spacing: -1px;
-      margin-bottom: .9rem;
+      font-size: 1.75rem;
+      font-weight: 700;
+      margin-bottom: .75rem;
     }
 
     .section-line {
-      width: 48px; height: 4px;
+      width: 45px;
+      height: 3px;
       background: linear-gradient(90deg, var(--accent), var(--accent2));
+      margin-bottom: 2.5rem;
       border-radius: 2px;
-      margin-bottom: 3rem;
     }
 
-    /* ─── About ─────────────────────────────────────────────── */
+    /* ─── About ────────────────────────────────────────────── */
     .about-grid {
       display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 4rem;
-      align-items: center;
+      grid-template-columns: 1.5fr 1fr;
+      gap: 3rem;
+      align-items: start;
     }
 
     .about-text p {
       color: var(--muted);
       margin-bottom: 1rem;
-      line-height: 1.85;
+      line-height: 1.75;
+    }
+
+    .about-text strong {
+      color: var(--text);
     }
 
     .about-pills {
       display: flex;
       flex-wrap: wrap;
-      gap: .6rem;
+      gap: .5rem;
       margin-top: 1.5rem;
     }
 
     .pill {
-      font-size: .78rem;
-      padding: .3rem .85rem;
-      border-radius: 999px;
-      background: rgba(124,58,237,.12);
-      color: var(--accent2);
-      border: 1px solid rgba(6,182,212,.2);
-      font-weight: 500;
+      padding: .4rem .85rem;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      font-size: .8rem;
+      color: var(--muted);
+      transition: all .3s;
+    }
+
+    .pill:hover {
+      border-color: var(--accent);
+      color: var(--accent);
     }
 
     .about-card {
       background: var(--surface);
       border: 1px solid var(--border);
-      border-radius: 20px;
-      padding: 2rem;
+      border-radius: 16px;
+      padding: 1.5rem;
+      transition: background 0.3s;
     }
 
     .about-card-row {
       display: flex;
-      align-items: flex-start;
+      align-items: center;
       gap: 1rem;
-      padding: 1rem 0;
+      padding: .85rem 0;
       border-bottom: 1px solid var(--border);
     }
 
-    .about-card-row:last-child { border-bottom: none; }
+    .about-card-row:last-child {
+      border-bottom: none;
+      padding-bottom: 0;
+    }
+
+    .about-card-row:first-child {
+      padding-top: 0;
+    }
 
     .about-card-icon {
-      font-size: 1.4rem;
-      flex-shrink: 0;
-      margin-top: .1rem;
+      font-size: 1.25rem;
     }
 
     .about-card-label {
-      font-size: .72rem;
+      font-size: .7rem;
       color: var(--muted);
-      letter-spacing: .5px;
       text-transform: uppercase;
-      margin-bottom: .2rem;
+      letter-spacing: 1px;
     }
 
     .about-card-value {
-      font-size: .95rem;
-      font-weight: 500;
+      font-size: .9rem;
       color: var(--text);
+      font-weight: 500;
     }
 
-    /* ─── Skills ────────────────────────────────────────────── */
-    .skills-categories { display: flex; flex-direction: column; gap: 2.5rem; }
-
-    .skills-cat-title {
-      font-size: .8rem;
-      letter-spacing: 2px;
-      text-transform: uppercase;
-      color: var(--muted);
-      margin-bottom: 1rem;
-      font-weight: 600;
+    .about-card-link {
+      font-size: .85rem;
+      color: var(--accent2);
+      text-decoration: none;
+      font-weight: 500;
+      transition: color .2s;
     }
 
+    .about-card-link:hover {
+      color: var(--accent);
+    }
+
+    /* ─── Skills ───────────────────────────────────────────── */
     .skills-grid {
-      display: flex;
-      flex-wrap: wrap;
-      gap: .75rem;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      gap: 1.25rem;
     }
 
-    .skill-chip {
+    .skill-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 1.25rem;
+      transition: all .3s;
+    }
+
+    .skill-card:hover {
+      border-color: var(--accent);
+      transform: translateY(-2px);
+    }
+
+    .skill-card h3 {
+      font-size: .9rem;
+      color: var(--accent2);
+      margin-bottom: .85rem;
       display: flex;
       align-items: center;
       gap: .5rem;
-      background: var(--surface);
+    }
+
+    .skill-card h3 span {
+      font-size: 1.1rem;
+    }
+
+    .skill-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: .4rem;
+    }
+
+    .skill-tag {
+      padding: .3rem .6rem;
+      background: var(--bg);
       border: 1px solid var(--border);
-      border-radius: 10px;
-      padding: .6rem 1.1rem;
-      font-size: .875rem;
-      font-weight: 500;
-      transition: transform .2s, border-color .2s, box-shadow .2s;
-      cursor: default;
+      border-radius: 6px;
+      font-size: .75rem;
+      color: var(--muted);
+      transition: all .3s;
     }
 
-    .skill-chip:hover {
-      transform: translateY(-3px);
+    .skill-tag:hover {
       border-color: var(--accent);
-      box-shadow: 0 6px 24px rgba(124,58,237,.18);
+      color: var(--accent);
     }
 
-    .skill-chip .chip-icon { font-size: 1.1rem; }
-
-    /* ─── Experience ────────────────────────────────────────── */
-    .timeline { position: relative; padding-left: 2rem; }
+    /* ─── Experience ───────────────────────────────────────── */
+    .timeline {
+      position: relative;
+      padding-left: 2rem;
+    }
 
     .timeline::before {
       content: '';
       position: absolute;
-      left: 0; top: 8px; bottom: 8px;
+      left: 0;
+      top: 0;
+      bottom: 0;
       width: 2px;
-      background: linear-gradient(to bottom, var(--accent), var(--accent2), transparent);
-      border-radius: 2px;
+      background: var(--border);
     }
 
     .timeline-item {
       position: relative;
-      margin-bottom: 3rem;
+      padding-bottom: 2.5rem;
     }
 
-    .timeline-item:last-child { margin-bottom: 0; }
+    .timeline-item:last-child {
+      padding-bottom: 0;
+    }
 
-    .timeline-dot {
+    .timeline-item::before {
+      content: '';
       position: absolute;
-      left: -2.45rem;
-      top: .35rem;
-      width: 12px; height: 12px;
+      left: -2rem;
+      top: 5px;
+      width: 12px;
+      height: 12px;
+      background: var(--accent);
       border-radius: 50%;
-      background: linear-gradient(135deg, var(--accent), var(--accent2));
-      box-shadow: 0 0 10px rgba(124,58,237,.5);
-    }
-
-    .timeline-header {
-      display: flex;
-      flex-wrap: wrap;
-      justify-content: space-between;
-      align-items: flex-start;
-      gap: .5rem;
-      margin-bottom: .4rem;
-    }
-
-    .timeline-role {
-      font-size: 1.05rem;
-      font-weight: 700;
+      border: 3px solid var(--bg);
     }
 
     .timeline-date {
-      font-size: .8rem;
+      font-size: .75rem;
       color: var(--accent2);
-      font-weight: 500;
-      background: rgba(6,182,212,.1);
-      padding: .2rem .7rem;
-      border-radius: 999px;
-      border: 1px solid rgba(6,182,212,.2);
-      white-space: nowrap;
+      font-weight: 600;
+      margin-bottom: .3rem;
+    }
+
+    .timeline-title {
+      font-size: 1.1rem;
+      font-weight: 600;
+      color: var(--text);
+      margin-bottom: .15rem;
     }
 
     .timeline-company {
-      font-size: .875rem;
+      font-size: .85rem;
       color: var(--muted);
       margin-bottom: .75rem;
     }
 
-    .timeline-bullets {
+    .timeline-list {
       list-style: none;
-      display: flex;
-      flex-direction: column;
-      gap: .4rem;
     }
 
-    .timeline-bullets li {
-      font-size: .875rem;
+    .timeline-list li {
+      font-size: .85rem;
       color: var(--muted);
-      display: flex;
-      gap: .6rem;
-      line-height: 1.65;
+      padding-left: 1rem;
+      position: relative;
+      margin-bottom: .35rem;
     }
 
-    .timeline-bullets li::before {
-      content: '▸';
+    .timeline-list li::before {
+      content: '•';
+      position: absolute;
+      left: 0;
       color: var(--accent);
-      flex-shrink: 0;
-      margin-top: .05rem;
     }
 
-    /* ─── Projects ──────────────────────────────────────────── */
+    /* ─── Projects ─────────────────────────────────────────── */
     .projects-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(310px, 1fr));
-      gap: 1.5rem;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 1.25rem;
     }
 
     .project-card {
       background: var(--surface);
       border: 1px solid var(--border);
-      border-radius: 16px;
-      overflow: hidden;
-      transition: transform .25s, box-shadow .25s, border-color .25s;
-      display: flex;
-      flex-direction: column;
+      border-radius: 12px;
+      padding: 1.5rem;
+      transition: all .3s;
     }
 
     .project-card:hover {
-      transform: translateY(-6px);
-      border-color: rgba(124,58,237,.5);
-      box-shadow: 0 16px 48px rgba(124,58,237,.15);
+      border-color: var(--accent);
+      transform: translateY(-3px);
+      box-shadow: 0 10px 30px rgba(0,0,0,0.2);
     }
 
-    .project-thumb {
-      height: 120px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 3rem;
-      position: relative;
-      overflow: hidden;
-    }
-
-    .project-thumb::before {
-      content: '';
-      position: absolute;
-      inset: 0;
-      opacity: .18;
-    }
-
-    .t1::before { background: linear-gradient(135deg, #7c3aed, #06b6d4); }
-    .t2::before { background: linear-gradient(135deg, #f59e0b, #10b981); }
-    .t3::before { background: linear-gradient(135deg, #ef4444, #f59e0b); }
-    .t4::before { background: linear-gradient(135deg, #3b82f6, #8b5cf6); }
-    .t5::before { background: linear-gradient(135deg, #10b981, #06b6d4); }
-
-    .project-body {
-      padding: 1.4rem;
-      flex: 1;
-      display: flex;
-      flex-direction: column;
-    }
-
-    .project-meta {
-      font-size: .72rem;
-      color: var(--accent2);
-      letter-spacing: .5px;
-      text-transform: uppercase;
-      margin-bottom: .35rem;
-    }
-
-    .project-title {
+    .project-card h3 {
       font-size: 1rem;
-      font-weight: 700;
       margin-bottom: .5rem;
-      line-height: 1.35;
     }
 
-    .project-desc {
-      font-size: .875rem;
+    .project-card p {
+      font-size: .85rem;
       color: var(--muted);
-      flex: 1;
-      margin-bottom: 1.1rem;
-      line-height: 1.7;
+      margin-bottom: 1rem;
+      line-height: 1.6;
     }
 
-    .project-tags {
+    .project-tech {
       display: flex;
       flex-wrap: wrap;
-      gap: .45rem;
+      gap: .35rem;
     }
 
-    .tag {
-      font-size: .72rem;
-      padding: .22rem .7rem;
-      border-radius: 999px;
-      background: rgba(124,58,237,.12);
+    .project-tech span {
+      padding: .2rem .5rem;
+      background: var(--bg);
+      border-radius: 4px;
+      font-size: .7rem;
       color: var(--accent2);
-      border: 1px solid rgba(6,182,212,.18);
-      font-weight: 500;
     }
 
-    /* ─── Education ─────────────────────────────────────────── */
-    .edu-grid {
+    /* ─── Education ───────────────────────────────────────── */
+    .education-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
       gap: 1.25rem;
     }
 
-    .edu-card {
+    .education-card {
       background: var(--surface);
       border: 1px solid var(--border);
-      border-radius: 14px;
-      padding: 1.6rem;
-      transition: border-color .2s, transform .2s;
+      border-radius: 12px;
+      padding: 1.5rem;
+      transition: all .3s;
     }
 
-    .edu-card:hover {
-      border-color: rgba(124,58,237,.4);
-      transform: translateY(-3px);
+    .education-card.primary {
+      background: linear-gradient(135deg, rgba(124,58,237,.15), rgba(6,182,212,.1));
+      border-color: var(--accent);
     }
 
-    .edu-degree {
-      font-size: .8rem;
-      font-weight: 600;
+    .education-card h3 {
+      font-size: 1rem;
+      margin-bottom: .25rem;
+    }
+
+    .education-card h4 {
+      font-size: .85rem;
       color: var(--accent2);
-      text-transform: uppercase;
-      letter-spacing: .5px;
-      margin-bottom: .35rem;
+      font-weight: 600;
+      margin-bottom: .25rem;
     }
 
-    .edu-title {
-      font-size: 1.0rem;
-      font-weight: 700;
-      margin-bottom: .35rem;
-    }
-
-    .edu-school {
-      font-size: .875rem;
+    .education-card p {
+      font-size: .8rem;
       color: var(--muted);
-      margin-bottom: .5rem;
     }
 
-    .edu-badge {
+    .gpa {
       display: inline-block;
+      margin-top: .5rem;
+      padding: .2rem .5rem;
+      background: rgba(6,182,212,.15);
+      border-radius: 4px;
       font-size: .75rem;
-      padding: .2rem .7rem;
-      border-radius: 999px;
-      background: rgba(124,58,237,.15);
-      color: var(--accent);
-      border: 1px solid rgba(124,58,237,.25);
+      color: var(--accent2);
       font-weight: 600;
     }
 
-    /* ─── Certifications ────────────────────────────────────── */
-    .certs-grid {
+    /* ─── Certifications ───────────────────────────────────── */
+    .cert-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
       gap: 1rem;
     }
 
     .cert-card {
       background: var(--surface);
       border: 1px solid var(--border);
-      border-radius: 12px;
-      padding: 1.25rem 1.4rem;
-      display: flex;
-      align-items: flex-start;
-      gap: 1rem;
-      transition: border-color .2s, transform .2s;
+      border-radius: 10px;
+      padding: 1rem 1.25rem;
+      transition: all .3s;
     }
 
     .cert-card:hover {
-      border-color: rgba(6,182,212,.3);
-      transform: translateY(-2px);
+      border-color: var(--accent);
     }
 
-    .cert-icon {
-      font-size: 1.6rem;
-      flex-shrink: 0;
+    .cert-card h3 {
+      font-size: .85rem;
+      margin-bottom: .15rem;
     }
 
-    .cert-name {
-      font-size: .9rem;
-      font-weight: 600;
-      margin-bottom: .2rem;
-      line-height: 1.35;
+    .cert-card p {
+      font-size: .75rem;
+      color: var(--accent2);
     }
 
-    .cert-issuer {
-      font-size: .78rem;
-      color: var(--muted);
-    }
-
-    /* ─── Contact ───────────────────────────────────────────── */
-    #contact { text-align: center; }
-
-    .contact-card {
+    /* ─── Contact ─────────────────────────────────────────── */
+    #contact {
+      text-align: center;
+      padding: 6rem 5vw;
       background: var(--surface);
-      border: 1px solid var(--border);
-      border-radius: 24px;
-      padding: 4rem 3rem;
-      max-width: 620px;
-      margin: 0 auto;
       position: relative;
-      overflow: hidden;
+      transition: background 0.3s;
     }
 
-    .contact-card::before {
+    #contact::before {
       content: '';
       position: absolute;
-      top: -80px; left: 50%;
-      transform: translateX(-50%);
-      width: 320px; height: 320px;
-      background: radial-gradient(circle, rgba(124,58,237,.18) 0%, transparent 70%);
+      inset: 0;
+      background: radial-gradient(circle at top, rgba(124,58,237,.1) 0%, transparent 60%);
       pointer-events: none;
     }
 
-    .contact-card p {
-      color: var(--muted);
-      margin-bottom: 2.5rem;
-      font-size: 1.05rem;
-      line-height: 1.85;
+    .contact-wrap {
+      max-width: 600px;
+      margin: 0 auto;
+      position: relative;
+      z-index: 1;
     }
 
-    .social-links {
+    .contact-wrap h2 {
+      font-size: 2rem;
+      margin-bottom: 1rem;
+    }
+
+    .contact-wrap p {
+      color: var(--muted);
+      margin-bottom: 2rem;
+    }
+
+    .contact-links {
       display: flex;
       justify-content: center;
       gap: 1rem;
-      margin-top: 1.75rem;
       flex-wrap: wrap;
     }
 
     .social-link {
-      display: flex;
-      align-items: center;
-      gap: .5rem;
-      padding: .6rem 1.25rem;
-      border-radius: 8px;
-      background: rgba(255,255,255,.04);
+      padding: .75rem 1.25rem;
+      background: var(--bg);
       border: 1px solid var(--border);
-      color: var(--muted);
+      border-radius: 8px;
+      color: var(--text);
       text-decoration: none;
       font-size: .85rem;
-      transition: all .2s;
+      transition: all .3s;
     }
 
     .social-link:hover {
-      background: rgba(124,58,237,.1);
       border-color: var(--accent);
-      color: var(--text);
+      color: var(--accent);
     }
 
-    /* ─── Footer ────────────────────────────────────────────── */
+    /* ─── Footer ───────────────────────────────────────────── */
     footer {
       text-align: center;
       padding: 2rem;
@@ -769,38 +763,84 @@
       border-top: 1px solid var(--border);
     }
 
-    /* ─── Divider ───────────────────────────────────────────── */
-    .divider {
-      height: 1px;
-      background: linear-gradient(90deg, transparent, var(--border), transparent);
-      margin: 0 5vw;
     }
 
-    /* ─── Animations ────────────────────────────────────────── */
-    @keyframes fadeUp {
-      from { opacity: 0; transform: translateY(28px); }
-      to   { opacity: 1; transform: translateY(0); }
+    /* ─── Mobile Menu ───────────────────────────────────────── */
+    .mobile-menu-btn {
+      display: none;
+      width: 42px;
+      height: 42px;
+      border-radius: 10px;
+      border: 1px solid var(--border);
+      background: var(--surface);
+      cursor: pointer;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 5px;
     }
 
-    @keyframes fadeIn {
-      from { opacity: 0; }
-      to   { opacity: 1; }
+    .mobile-menu-btn span {
+      width: 20px;
+      height: 2px;
+      background: var(--text);
+      transition: all .3s;
     }
 
-    .reveal {
+    .mobile-menu-btn.active span:nth-child(1) {
+      transform: rotate(45deg) translate(5px, 5px);
+    }
+
+    .mobile-menu-btn.active span:nth-child(2) {
       opacity: 0;
-      transform: translateY(28px);
-      transition: opacity .7s ease, transform .7s ease;
     }
 
-    .reveal.visible { opacity: 1; transform: none; }
+    .mobile-menu-btn.active span:nth-child(3) {
+      transform: rotate(-45deg) translate(5px, -5px);
+    }
 
-    /* ─── Responsive ────────────────────────────────────────── */
-    @media (max-width: 720px) {
-      .about-grid { grid-template-columns: 1fr; }
-      .nav-links { gap: 1rem; font-size: .8rem; }
+    /* ─── Responsive ─────────────────────────────────────── */
+    @media (max-width: 768px) {
+      .nav-links { 
+        display: none;
+        position: absolute;
+        top: 100%;
+        left: 0;
+        right: 0;
+        background: var(--surface);
+        flex-direction: column;
+        padding: 1rem 5vw 2rem;
+        gap: 0;
+        border-bottom: 1px solid var(--border);
+      }
+
+      .nav-links.active {
+        display: flex;
+      }
+
+      .nav-links li {
+        padding: .75rem 0;
+        border-bottom: 1px solid var(--border);
+      }
+
+      .nav-links li:last-child {
+        border-bottom: none;
+      }
+
+      .mobile-menu-btn {
+        display: flex;
+      }
+
+      .hero-title { font-size: 2rem; }
       .hero-stats { gap: 1.5rem; }
-      .timeline { padding-left: 1.5rem; }
+      .hero-stat .num { font-size: 1.5rem; }
+      .about-grid { grid-template-columns: 1fr; }
+      .hero-btns { flex-direction: column; align-items: center; }
+      .btn { width: 100%; max-width: 250px; }
+      .hero-avatar { width: 150px; height: 150px; }
+      .hero-avatar img { width: 142px; height: 142px; }
+      .hero-avatar-ring { inset: -3px; }
+      .hero-avatar-glow { inset: -20px; }
     }
   </style>
 </head>
@@ -808,79 +848,76 @@
 
   <!-- NAV -->
   <nav>
-    <div class="nav-logo">S. M. Faysal</div>
-    <ul class="nav-links">
-      <li><a href="#about">About</a></li>
-      <li><a href="#skills">Skills</a></li>
-      <li><a href="#experience">Experience</a></li>
-      <li><a href="#projects">Projects</a></li>
-      <li><a href="#education">Education</a></li>
-      <li><a href="#contact">Contact</a></li>
-    </ul>
+    <div class="nav-logo">Faysal</div>
+    <div class="nav-right">
+      <ul class="nav-links" id="navLinks">
+        <li><a href="#about">About</a></li>
+        <li><a href="#skills">Skills</a></li>
+        <li><a href="#experience">Experience</a></li>
+        <li><a href="#projects">Projects</a></li>
+        <li><a href="#education">Education</a></li>
+        <li><a href="#contact">Contact</a></li>
+      </ul>
+      <button class="theme-toggle" onclick="toggleTheme()" aria-label="Toggle theme">
+        <svg class="moon" viewBox="0 0 24 24"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path></svg>
+        <svg class="sun" viewBox="0 0 24 24"><circle cx="12" cy="12" r="5"></circle><line x1="12" y1="1" x2="12" y2="3"></line><line x1="12" y1="21" x2="12" y2="23"></line><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line><line x1="1" y1="12" x2="3" y2="12"></line><line x1="21" y1="12" x2="23" y2="12"></line><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line></svg>
+      </button>
+      <button class="mobile-menu-btn" onclick="toggleMenu()" aria-label="Menu">
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
+    </div>
   </nav>
 
   <!-- HERO -->
   <section id="hero">
-    <div>
-      <div class="hero-avatar">
-        <div class="hero-avatar-ring"></div>
-        <div class="hero-avatar-glow"></div>
-        <img src="40_FaysalSheikhMd.jpg" alt="Sheikh Md Faysal" />
+    <div class="hero-avatar">
+      <div class="hero-avatar-ring"></div>
+      <div class="hero-avatar-glow"></div>
+      <img src="40_FaysalSheikhMd.jpg" alt="Sheikh Md Faysal" />
+    </div>
+    <div class="hero-tag">Open to opportunities · Jersey City, NJ</div>
+    <h1 class="hero-title">
+      Sheikh Md Faysal<br><span>Data & Business Analytics</span>
+    </h1>
+    <p class="hero-sub">
+      Turning complex data into decisions that move the needle. 9+ years driving operational
+      efficiency, revenue recovery, and digital transformation across energy & financial services.
+    </p>
+    <div class="hero-stats">
+      <div class="hero-stat">
+        <span class="num">9+</span>
+        <span class="label">Years Experience</span>
       </div>
-      <div class="hero-tag">Open to opportunities · Jersey City, NJ</div>
-      <h1 class="hero-title">
-        Sheikh Md Faysal<br><span>Data & Business Analytics</span>
-      </h1>
-      <p class="hero-sub">
-        Turning complex data into decisions that move the needle. 9+ years driving operational
-        efficiency, revenue recovery, and digital transformation across energy &amp; financial services.
-      </p>
-      <div class="hero-stats">
-        <div class="hero-stat">
-          <span class="num">9+</span>
-          <span class="label">Years Experience</span>
-        </div>
-        <div class="hero-stat">
-          <span class="num">40%+</span>
-          <span class="label">Efficiency Gains</span>
-        </div>
-        <div class="hero-stat">
-          <span class="num">120%+</span>
-          <span class="label">Revenue Recovery</span>
-        </div>
-        <div class="hero-stat">
-          <span class="num">3.76</span>
-          <span class="label">MS GPA</span>
-        </div>
+      <div class="hero-stat">
+        <span class="num">40%+</span>
+        <span class="label">Efficiency Gains</span>
       </div>
-      <div class="hero-cta">
-        <a href="#projects" class="btn btn-primary">View My Work</a>
-        <a href="#contact" class="btn btn-ghost">Get In Touch</a>
+      <div class="hero-stat">
+        <span class="num">120%+</span>
+        <span class="label">Revenue Recovery</span>
       </div>
     </div>
-    <div class="scroll-hint">
-      <div class="mouse"></div>
-      <span>Scroll</span>
+    <div class="hero-btns">
+      <a href="#contact" class="btn btn-primary">Get In Touch</a>
+      <a href="#projects" class="btn btn-secondary">View Projects</a>
     </div>
   </section>
-
-  <div class="divider"></div>
 
   <!-- ABOUT -->
   <div class="section-wrap" id="about">
     <div class="section-label">Who I am</div>
     <h2 class="section-title">About Me</h2>
     <div class="section-line"></div>
-    <div class="about-grid reveal">
+    <div class="about-grid">
       <div class="about-text">
         <p>
-          I'm a Data and Business Analytics professional with over 9 years of experience spanning
-          financial analysis, data modeling, process optimization, and digital transformation —
-          primarily across energy and financial services sectors.
+          I'm a Data and Business Analytics professional with 9+ years of experience in financial analysis, data modeling, process optimization, and digital transformation across energy and financial services.
         </p>
         <p>
           Currently completing my <strong style="color:var(--text)">MS in Business Analytics</strong>
-          at Montclair State University (GPA: 3.76), I bring a rare combination of hands-on industry
+          at Montclair State University (GPA: 3.8), I bring a rare combination of hands-on industry
           leadership and rigorous academic training in machine learning, forecasting, and operations research.
         </p>
         <p>
@@ -901,7 +938,7 @@
           <div class="about-card-icon">🎓</div>
           <div>
             <div class="about-card-label">Education</div>
-            <div class="about-card-value">MS Business Analytics · Montclair State University</div>
+            <div class="about-card-value">MS Business Analytics · Montclair State</div>
           </div>
         </div>
         <div class="about-card-row">
@@ -912,13 +949,6 @@
           </div>
         </div>
         <div class="about-card-row">
-          <div class="about-card-icon">🏢</div>
-          <div>
-            <div class="about-card-label">Current Role</div>
-            <div class="about-card-value">Deputy Manager, Financial Planning · Titas Gas</div>
-          </div>
-        </div>
-        <div class="about-card-row">
           <div class="about-card-icon">📧</div>
           <div>
             <div class="about-card-label">Email</div>
@@ -926,144 +956,141 @@
           </div>
         </div>
         <div class="about-card-row">
-          <div class="about-card-icon">🌐</div>
+          <div class="about-card-icon">🎓</div>
           <div>
-            <div class="about-card-label">Domain Expertise</div>
-            <div class="about-card-value">Energy / Utilities · Financial Services</div>
+            <div class="about-card-label">Student Email</div>
+            <div class="about-card-value">faysals1@montclair.edu</div>
+          </div>
+        </div>
+        <div class="about-card-row">
+          <div class="about-card-icon">📱</div>
+          <div>
+            <div class="about-card-label">Phone</div>
+            <div class="about-card-value">(201) 526 5280</div>
+          </div>
+        </div>
+        <div class="about-card-row">
+          <div class="about-card-icon">💼</div>
+          <div>
+            <div class="about-card-label">LinkedIn</div>
+            <a href="https://www.linkedin.com/in/faysal-msba" target="_blank" class="about-card-link">linkedin.com/in/faysal-msba</a>
+          </div>
+        </div>
+        <div class="about-card-row">
+          <div class="about-card-icon">💻</div>
+          <div>
+            <div class="about-card-label">GitHub</div>
+            <a href="https://github.com/SheikhMdFaysal" target="_blank" class="about-card-link">github.com/SheikhMdFaysal</a>
           </div>
         </div>
       </div>
     </div>
   </div>
 
-  <div class="divider"></div>
-
   <!-- SKILLS -->
   <div class="section-wrap" id="skills">
-    <div class="section-label">What I work with</div>
-    <h2 class="section-title">Skills</h2>
+    <div class="section-label">What I know</div>
+    <h2 class="section-title">Technical Skills</h2>
     <div class="section-line"></div>
-    <div class="skills-categories reveal">
-
-      <div>
-        <div class="skills-cat-title">Languages &amp; Libraries</div>
-        <div class="skills-grid">
-          <div class="skill-chip"><span class="chip-icon">🐍</span> Python</div>
-          <div class="skill-chip"><span class="chip-icon">🗄️</span> SQL</div>
-          <div class="skill-chip"><span class="chip-icon">📊</span> R</div>
-          <div class="skill-chip"><span class="chip-icon">🧮</span> pandas</div>
-          <div class="skill-chip"><span class="chip-icon">🔢</span> NumPy</div>
-          <div class="skill-chip"><span class="chip-icon">🤖</span> scikit-learn</div>
-          <div class="skill-chip"><span class="chip-icon">🧠</span> TensorFlow</div>
-          <div class="skill-chip"><span class="chip-icon">🕸️</span> Keras</div>
-          <div class="skill-chip"><span class="chip-icon">📈</span> matplotlib</div>
-          <div class="skill-chip"><span class="chip-icon">⚙️</span> Pyomo</div>
-          <div class="skill-chip"><span class="chip-icon">📉</span> ggplot2</div>
+    <div class="skills-grid">
+      <div class="skill-card">
+        <h3><span>💻</span> Languages & Libraries</h3>
+        <div class="skill-tags">
+          <span class="skill-tag">Python</span>
+          <span class="skill-tag">pandas</span>
+          <span class="skill-tag">NumPy</span>
+          <span class="skill-tag">scikit-learn</span>
+          <span class="skill-tag">TensorFlow</span>
+          <span class="skill-tag">Keras</span>
+          <span class="skill-tag">SQL</span>
+          <span class="skill-tag">R</span>
         </div>
       </div>
-
-      <div>
-        <div class="skills-cat-title">Visualization &amp; BI Tools</div>
-        <div class="skills-grid">
-          <div class="skill-chip"><span class="chip-icon">📊</span> Power BI</div>
-          <div class="skill-chip"><span class="chip-icon">🟠</span> Tableau</div>
-          <div class="skill-chip"><span class="chip-icon">🟩</span> Advanced Excel</div>
-          <div class="skill-chip"><span class="chip-icon">🔑</span> DAX</div>
-          <div class="skill-chip"><span class="chip-icon">📝</span> VBA</div>
-          <div class="skill-chip"><span class="chip-icon">🏦</span> Financial Modeling</div>
+      <div class="skill-card">
+        <h3><span>📊</span> Visualization & BI</h3>
+        <div class="skill-tags">
+          <span class="skill-tag">Power BI</span>
+          <span class="skill-tag">Tableau</span>
+          <span class="skill-tag">Excel (Advanced)</span>
+          <span class="skill-tag">VBA</span>
+          <span class="skill-tag">Solver</span>
         </div>
       </div>
-
-      <div>
-        <div class="skills-cat-title">Analytics Methods</div>
-        <div class="skills-grid">
-          <div class="skill-chip"><span class="chip-icon">📐</span> Regression Analysis</div>
-          <div class="skill-chip"><span class="chip-icon">🔮</span> Forecasting</div>
-          <div class="skill-chip"><span class="chip-icon">⏱️</span> Time-Series</div>
-          <div class="skill-chip"><span class="chip-icon">🧪</span> Hypothesis Testing</div>
-          <div class="skill-chip"><span class="chip-icon">🌲</span> Classification</div>
-          <div class="skill-chip"><span class="chip-icon">🔵</span> Clustering</div>
-          <div class="skill-chip"><span class="chip-icon">⛏️</span> Process Mining</div>
-          <div class="skill-chip"><span class="chip-icon">🔗</span> Linear Programming</div>
-          <div class="skill-chip"><span class="chip-icon">🔄</span> ETL</div>
-          <div class="skill-chip"><span class="chip-icon">📌</span> KPI Development</div>
-          <div class="skill-chip"><span class="chip-icon">🟡</span> Celonis</div>
+      <div class="skill-card">
+        <h3><span>📈</span> Analytics Methods</h3>
+        <div class="skill-tags">
+          <span class="skill-tag">Regression</span>
+          <span class="skill-tag">Forecasting</span>
+          <span class="skill-tag">Time-Series</span>
+          <span class="skill-tag">Machine Learning</span>
+          <span class="skill-tag">Process Mining</span>
+          <span class="skill-tag">Celonis</span>
+          <span class="skill-tag">Linear Programming</span>
         </div>
       </div>
-
+      <div class="skill-card">
+        <h3><span>🏭</span> Domain Expertise</h3>
+        <div class="skill-tags">
+          <span class="skill-tag">Energy/Utilities</span>
+          <span class="skill-tag">Financial Services</span>
+          <span class="skill-tag">Compliance Analytics</span>
+          <span class="skill-tag">Governance Analytics</span>
+        </div>
+      </div>
     </div>
   </div>
-
-  <div class="divider"></div>
 
   <!-- EXPERIENCE -->
   <div class="section-wrap" id="experience">
     <div class="section-label">Where I've worked</div>
-    <h2 class="section-title">Experience</h2>
+    <h2 class="section-title">Professional Experience</h2>
     <div class="section-line"></div>
     <div class="timeline">
-
-      <div class="timeline-item reveal">
-        <div class="timeline-dot"></div>
-        <div class="timeline-header">
-          <div class="timeline-role">Deputy Manager, Financial Planning &amp; Internal Control</div>
-          <div class="timeline-date">Dec 2023 — Present</div>
-        </div>
-        <div class="timeline-company">Titas Gas Transmission &amp; Distribution Co. Ltd. · Bangladesh</div>
-        <ul class="timeline-bullets">
-          <li>Spearhead financial planning, budgeting, and internal control across a major national gas utility.</li>
-          <li>Lead data-driven process optimization initiatives resulting in 40%+ gains in operational efficiency.</li>
-          <li>Design and maintain Power BI dashboards for executive-level KPI monitoring and reporting.</li>
-          <li>Drive compliance analytics and governance reporting to regulatory bodies.</li>
+      <div class="timeline-item">
+        <div class="timeline-date">Dec 2023 – Present</div>
+        <h3 class="timeline-title">Deputy Manager, Financial Planning & Internal Control</h3>
+        <div class="timeline-company">Titas Gas Transmission & Distribution PLC</div>
+        <ul class="timeline-list">
+          <li>Designed automated Power BI dashboards for KPIs, reducing reporting time by 40%</li>
+          <li>Analyzed 3M+ customer records, improving data accuracy by 20%</li>
+          <li>Built predictive models for cash flow and budget variance forecasting</li>
+          <li>Conducted process mining analysis reducing cycle time by 40% (6 days)</li>
         </ul>
       </div>
-
-      <div class="timeline-item reveal" style="transition-delay:.1s">
-        <div class="timeline-dot"></div>
-        <div class="timeline-header">
-          <div class="timeline-role">Assistant Manager, Revenue Collection &amp; Financial Reporting</div>
-          <div class="timeline-date">Dec 2018 — Dec 2023</div>
-        </div>
-        <div class="timeline-company">Titas Gas Transmission &amp; Distribution Co. Ltd. · Bangladesh</div>
-        <ul class="timeline-bullets">
-          <li>Achieved 120%+ revenue recovery by redesigning collection workflows and introducing data-driven targeting.</li>
-          <li>Improved data accuracy by 20%+ through automated ETL pipelines and validation frameworks.</li>
-          <li>Built financial reports and forecasting models using advanced Excel and SQL.</li>
-          <li>Led a cross-functional team to digitize manual billing and reconciliation processes.</li>
+      <div class="timeline-item">
+        <div class="timeline-date">Dec 2018 – Dec 2023</div>
+        <h3 class="timeline-title">Assistant Manager, Revenue Collection & Financial Reporting</h3>
+        <div class="timeline-company">Titas Gas Transmission & Distribution PLC</div>
+        <ul class="timeline-list">
+          <li>Increased revenue recovery by 120% over 6 months through targeted collection strategies</li>
+          <li>Built regression models reducing bad debt exposure by 15%</li>
+          <li>Developed Tableau dashboards for collection metrics by region</li>
+          <li>Identified $2M+ in uncollected receivables through variance analysis</li>
         </ul>
       </div>
-
-      <div class="timeline-item reveal" style="transition-delay:.2s">
-        <div class="timeline-dot"></div>
-        <div class="timeline-header">
-          <div class="timeline-role">Probationary Officer</div>
-          <div class="timeline-date">Feb 2016 — Nov 2018</div>
-        </div>
-        <div class="timeline-company">Bank Asia PLC · Bangladesh</div>
-        <ul class="timeline-bullets">
-          <li>Managed financial analysis, loan portfolio monitoring, and credit risk assessment.</li>
-          <li>Prepared regulatory compliance reports and internal audit documentation.</li>
-          <li>Developed Excel-based models for branch performance tracking and variance analysis.</li>
+      <div class="timeline-item">
+        <div class="timeline-date">Feb 2016 – Nov 2018</div>
+        <h3 class="timeline-title">Probationary Officer</h3>
+        <div class="timeline-company">Bank Asia PLC, Dhaka, Bangladesh</div>
+        <ul class="timeline-list">
+          <li>Managed $10M+ commercial loan portfolio with Excel-based risk models</li>
+          <li>Developed automated credit scoring tools reducing evaluation time by 30%</li>
+          <li>Improved portfolio quality with 18% reduction in delinquency</li>
+          <li>Analyzed financial statements for 200+ corporate borrowers</li>
         </ul>
       </div>
-
-      <div class="timeline-item reveal" style="transition-delay:.3s">
-        <div class="timeline-dot"></div>
-        <div class="timeline-header">
-          <div class="timeline-role">Management Trainee Officer</div>
-          <div class="timeline-date">Apr 2014 — Feb 2016</div>
-        </div>
-        <div class="timeline-company">NCC Bank PLC · Bangladesh</div>
-        <ul class="timeline-bullets">
-          <li>Rotated across retail banking, operations, and finance divisions during structured training program.</li>
-          <li>Supported branch financial reporting and customer portfolio analysis.</li>
+      <div class="timeline-item">
+        <div class="timeline-date">Apr 2014 – Feb 2016</div>
+        <h3 class="timeline-title">Management Trainee Officer</h3>
+        <div class="timeline-company">NCC Bank PLC, Dhaka, Bangladesh</div>
+        <ul class="timeline-list">
+          <li>Validated 500+ monthly KYC records with 99% accuracy</li>
+          <li>Performed AML/CFT compliance analytics on transaction patterns</li>
+          <li>Built Excel reporting templates improving efficiency by 25%</li>
         </ul>
       </div>
-
     </div>
   </div>
-
-  <div class="divider"></div>
 
   <!-- PROJECTS -->
   <div class="section-wrap" id="projects">
@@ -1071,259 +1098,179 @@
     <h2 class="section-title">Academic Projects</h2>
     <div class="section-line"></div>
     <div class="projects-grid">
-
-      <div class="project-card reveal">
-        <div class="project-thumb t1">🧠</div>
-        <div class="project-body">
-          <div class="project-meta">AI for Business · Spring 2026</div>
-          <div class="project-title">Neural Network Classification Model</div>
-          <p class="project-desc">
-            Built and tuned a deep learning classification model for a business prediction task.
-            Implemented with TensorFlow/Keras, including hyperparameter optimization and performance evaluation.
-          </p>
-          <div class="project-tags">
-            <span class="tag">Python</span>
-            <span class="tag">TensorFlow</span>
-            <span class="tag">Keras</span>
-            <span class="tag">Classification</span>
-          </div>
+      <div class="project-card">
+        <h3>Enterprise AI Security Red Teaming Platform</h3>
+        <p><strong>MS Capstone – Ada Analytics | MSU | Spring 2026</strong><br>
+        Lead business requirements gathering and documentation across 7 Agile sprints; applied data mining and segmentation for market research and 3-year financial modeling supporting a $10M+ Data and Analytics opportunity analysis.</p>
+        <div class="project-tech">
+          <span>Agile</span>
+          <span>Data Mining</span>
+          <span>Financial Modeling</span>
+          <span>Market Research</span>
+          <span><a href="https://github.com/SheikhMdFaysal/enterprise-ai-security-platform" target="_blank" style="color:var(--accent2);text-decoration:none;">GitHub</a></span>
         </div>
       </div>
-
-      <div class="project-card reveal" style="transition-delay:.1s">
-        <div class="project-thumb t2">🔗</div>
-        <div class="project-body">
-          <div class="project-meta">Operations Research · Fall 2025</div>
-          <div class="project-title">Supply Chain Optimization</div>
-          <p class="project-desc">
-            Formulated and solved a linear programming model to minimize supply chain costs
-            and optimize inventory allocation across distribution nodes using Pyomo.
-          </p>
-          <div class="project-tags">
-            <span class="tag">Python</span>
-            <span class="tag">Pyomo</span>
-            <span class="tag">Linear Programming</span>
-            <span class="tag">Optimization</span>
-          </div>
+      <div class="project-card">
+        <h3>Neural Network Classification Model</h3>
+        <p>Built multi-layer neural networks using TensorFlow/Keras for predictive analytics. Optimized hyperparameters (learning rates, activation functions).</p>
+        <div class="project-tech">
+          <span>TensorFlow</span>
+          <span>Keras</span>
+          <span>Python</span>
         </div>
       </div>
-
-      <div class="project-card reveal" style="transition-delay:.2s">
-        <div class="project-thumb t3">⛏️</div>
-        <div class="project-body">
-          <div class="project-meta">Process Mining · Fall 2025</div>
-          <div class="project-title">Logistics Workflow Optimization</div>
-          <p class="project-desc">
-            Used Celonis process mining to discover, analyze, and optimize logistics workflows.
-            Identified bottlenecks and automated conformance checking against process models.
-          </p>
-          <div class="project-tags">
-            <span class="tag">Celonis</span>
-            <span class="tag">Process Mining</span>
-            <span class="tag">Workflow Analysis</span>
-          </div>
+      <div class="project-card">
+        <h3>Supply Chain Optimization</h3>
+        <p>Applied linear programming to optimize resource allocation and minimize costs. Solved network flow problems using optimization algorithms.</p>
+        <div class="project-tech">
+          <span>Pyomo</span>
+          <span>Linear Programming</span>
+          <span>Optimization</span>
         </div>
       </div>
-
-      <div class="project-card reveal" style="transition-delay:.3s">
-        <div class="project-thumb t4">📺</div>
-        <div class="project-body">
-          <div class="project-meta">Regression Analysis · Spring 2025</div>
-          <div class="project-title">Determinants of Consumer Electronics Quality</div>
-          <p class="project-desc">
-            Applied multiple regression and hypothesis testing in R to identify key drivers
-            of consumer electronics product quality ratings from real-world survey data.
-          </p>
-          <div class="project-tags">
-            <span class="tag">R</span>
-            <span class="tag">ggplot2</span>
-            <span class="tag">Regression</span>
-            <span class="tag">Hypothesis Testing</span>
-          </div>
+      <div class="project-card">
+        <h3>Logistics Workflow Optimization</h3>
+        <p>Conducted process mining using Celonis to analyze delivery workflow. Identified bottlenecks and quantified cycle time improvements.</p>
+        <div class="project-tech">
+          <span>Celonis</span>
+          <span>Process Mining</span>
         </div>
       </div>
-
-      <div class="project-card reveal" style="transition-delay:.4s">
-        <div class="project-thumb t5">📈</div>
-        <div class="project-body">
-          <div class="project-meta">Time-Series Analysis · Spring 2025</div>
-          <div class="project-title">Strategic Retail Sales Forecasting</div>
-          <p class="project-desc">
-            Developed time-series forecasting models (ARIMA, exponential smoothing) in Python
-            to predict retail sales trends and support strategic inventory planning decisions.
-          </p>
-          <div class="project-tags">
-            <span class="tag">Python</span>
-            <span class="tag">ARIMA</span>
-            <span class="tag">Time-Series</span>
-            <span class="tag">Forecasting</span>
-          </div>
+      <div class="project-card">
+        <h3>TV Quality Regression Analysis</h3>
+        <p>Developed multiple linear regression model analyzing 20+ features affecting TV quality scores. Performed statistical validation (R², adjusted R², p-values).</p>
+        <div class="project-tech">
+          <span>R</span>
+          <span>Regression</span>
+          <span>Statistical Modeling</span>
         </div>
       </div>
-
+      <div class="project-card">
+        <h3>Retail Sales Forecasting</h3>
+        <p>Analyzed multi-year sales datasets for seasonal patterns. Built Power BI dashboards and implemented ARIMA/exponential smoothing models.</p>
+        <div class="project-tech">
+          <span>Power BI</span>
+          <span>Time-Series</span>
+          <span>ARIMA</span>
+        </div>
+      </div>
     </div>
   </div>
-
-  <div class="divider"></div>
 
   <!-- EDUCATION -->
   <div class="section-wrap" id="education">
     <div class="section-label">Academic background</div>
     <h2 class="section-title">Education</h2>
     <div class="section-line"></div>
-    <div class="edu-grid reveal">
-
-      <div class="edu-card">
-        <div class="edu-degree">Master of Science</div>
-        <div class="edu-title">Business Analytics</div>
-        <div class="edu-school">Montclair State University · Expected May 2026</div>
-        <span class="edu-badge">GPA: 3.76 / 4.0</span>
+    <div class="education-grid">
+      <div class="education-card primary">
+        <h3>MS in Business Analytics</h3>
+        <h4>Montclair State University</h4>
+        <p>Expected May 2026</p>
+        <span class="gpa">GPA: 3.8 / 4.0</span>
       </div>
-
-      <div class="edu-card">
-        <div class="edu-degree">Master of Business Administration</div>
-        <div class="edu-title">Finance &amp; Banking</div>
-        <div class="edu-school">Shahjalal University of Science &amp; Technology</div>
-        <span class="edu-badge">MBA</span>
+      <div class="education-card">
+        <h3>MBA, Finance and Banking</h3>
+        <h4>Shahjalal University of Science & Technology</h4>
+        <p>2014</p>
       </div>
-
-      <div class="edu-card">
-        <div class="edu-degree">Bachelor of Business Administration</div>
-        <div class="edu-title">Finance &amp; Banking</div>
-        <div class="edu-school">Shahjalal University of Science &amp; Technology</div>
-        <span class="edu-badge">BBA</span>
-      </div>
-
-    </div>
-
-    <!-- Certifications -->
-    <div style="margin-top: 3.5rem;">
-      <div class="section-label">Credentials</div>
-      <h3 class="section-title" style="font-size:1.8rem; margin-bottom:.9rem;">Certifications</h3>
-      <div class="section-line"></div>
-      <div class="certs-grid reveal">
-
-        <div class="cert-card">
-          <div class="cert-icon">🏅</div>
-          <div>
-            <div class="cert-name">Foundations of Data Ethics</div>
-            <div class="cert-issuer">INFORMS · Jan 2026</div>
-          </div>
-        </div>
-
-        <div class="cert-card">
-          <div class="cert-icon">⛏️</div>
-          <div>
-            <div class="cert-name">Process Mining: Academic Fundamentals</div>
-            <div class="cert-issuer">Celonis · 2025</div>
-          </div>
-        </div>
-
-        <div class="cert-card">
-          <div class="cert-icon">⛏️</div>
-          <div>
-            <div class="cert-name">Process Mining: Celonis Foundations</div>
-            <div class="cert-issuer">Celonis · 2025</div>
-          </div>
-        </div>
-
-        <div class="cert-card">
-          <div class="cert-icon">🐍</div>
-          <div>
-            <div class="cert-name">Crash Course on Python</div>
-            <div class="cert-issuer">Google / Coursera · 2024</div>
-          </div>
-        </div>
-
-        <div class="cert-card">
-          <div class="cert-icon">🤖</div>
-          <div>
-            <div class="cert-name">Generative AI Mastermind Workshop</div>
-            <div class="cert-issuer">Outskill · 2024</div>
-          </div>
-        </div>
-
-        <div class="cert-card">
-          <div class="cert-icon">🗄️</div>
-          <div>
-            <div class="cert-name">SQL for Data Science</div>
-            <div class="cert-issuer">edX / IBM · In Progress</div>
-          </div>
-        </div>
-
+      <div class="education-card">
+        <h3>BBA, Finance and Banking</h3>
+        <h4>Shahjalal University of Science & Technology</h4>
+        <p>2012</p>
       </div>
     </div>
   </div>
 
-  <div class="divider"></div>
+  <!-- CERTIFICATIONS -->
+  <div class="section-wrap" id="certifications">
+    <div class="section-label">Credentials</div>
+    <h2 class="section-title">Certifications</h2>
+    <div class="section-line"></div>
+    <div class="cert-grid">
+      <div class="cert-card">
+        <h3>Foundations of Data Ethics</h3>
+        <p>INFORMS | Jan 2026</p>
+      </div>
+      <div class="cert-card">
+        <h3>Process Mining: Celonis Academic Fundamentals</h3>
+        <p>Celonis | 2025</p>
+      </div>
+      <div class="cert-card">
+        <h3>Process Mining: Celonis Foundations</h3>
+        <p>Celonis | 2025</p>
+      </div>
+      <div class="cert-card">
+        <h3>Google Crash Course on Python</h3>
+        <p>Coursera/Google | 2024</p>
+      </div>
+      <div class="cert-card">
+        <h3>Generative AI Mastermind Workshop</h3>
+        <p>Outskill | 2024</p>
+      </div>
+      <div class="cert-card">
+        <h3>SQL for Data Science</h3>
+        <p>edX/IBM | In Progress</p>
+      </div>
+    </div>
+  </div>
 
   <!-- CONTACT -->
-  <div class="section-wrap" id="contact">
-    <div class="section-label">Let's talk</div>
-    <h2 class="section-title" style="text-align:center">Get In Touch</h2>
-    <div class="section-line" style="margin: 0 auto 3rem;"></div>
-    <div class="contact-card reveal">
-      <p>
-        Currently completing my MS in Business Analytics and open to data analytics,
-        business intelligence, and financial analytics roles. Feel free to reach out —
-        I'm always happy to connect.
-      </p>
-      <a href="mailto:sober.faysal@live.com" class="btn btn-primary">Say Hello ✉</a>
-      <div class="social-links">
+  <section id="contact">
+    <div class="contact-wrap">
+      <h2>Let's Connect</h2>
+      <p>I'm always open to discussing new opportunities, data projects, or collaboration ideas.</p>
+      <div class="contact-links">
+        <a href="mailto:sober.faysal@live.com" class="btn btn-primary">Say Hello ✉</a>
         <a href="https://www.linkedin.com/in/faysal-msba" target="_blank" rel="noopener" class="social-link">
-          <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 01-2.063-2.065 2.064 2.064 0 112.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
           LinkedIn
         </a>
-        <a href="tel:+12015265280" class="social-link">
-          <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor"><path d="M6.62 10.79c1.44 2.83 3.76 5.14 6.59 6.59l2.2-2.2c.27-.27.67-.36 1.02-.24 1.12.37 2.33.57 3.57.57.55 0 1 .45 1 1V20c0 .55-.45 1-1 1-9.39 0-17-7.61-17-17 0-.55.45-1 1-1h3.5c.55 0 1 .45 1 1 0 1.25.2 2.45.57 3.57.11.35.03.74-.25 1.02l-2.2 2.2z"/></svg>
-          (201) 526-5280
+        <a href="https://github.com/SheikhMdFaysal" target="_blank" rel="noopener" class="social-link">
+          GitHub
         </a>
-        <a href="mailto:sober.faysal@live.com" class="social-link">
-          <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor"><path d="M20 4H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/></svg>
-          sober.faysal@live.com
+        <a href="tel:+12015265280" class="social-link">
+          (201) 526 5280
         </a>
       </div>
     </div>
-  </div>
+  </section>
 
   <!-- FOOTER -->
   <footer>
-    <p>Sheikh Md Faysal · Data &amp; Business Analytics · Jersey City, NJ · 2026</p>
+    <p>&copy; 2024 Sheikh Md Faysal. All rights reserved.</p>
   </footer>
 
   <script>
-    // Scroll reveal
-    const observer = new IntersectionObserver(
-      entries => entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); }),
-      { threshold: 0.1 }
-    );
-    document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+    // Theme Toggle
+    function toggleTheme() {
+      const html = document.documentElement;
+      const currentTheme = html.getAttribute('data-theme');
+      const newTheme = currentTheme === 'light' ? 'dark' : 'light';
+      html.setAttribute('data-theme', newTheme === 'dark' ? '' : 'light');
+      localStorage.setItem('theme', newTheme);
+    }
 
-    // Active nav highlight
-    const sections = document.querySelectorAll('[id]');
-    const navLinks = document.querySelectorAll('.nav-links a');
+    // Mobile Menu Toggle
+    function toggleMenu() {
+      const navLinks = document.getElementById('navLinks');
+      const menuBtn = document.querySelector('.mobile-menu-btn');
+      navLinks.classList.toggle('active');
+      menuBtn.classList.toggle('active');
+    }
 
-    window.addEventListener('scroll', () => {
-      let current = '';
-      sections.forEach(s => {
-        if (window.scrollY >= s.offsetTop - 140) current = s.id;
-      });
-      navLinks.forEach(a => {
-        a.style.color = a.getAttribute('href') === `#${current}` ? 'var(--text)' : '';
-      });
-    });
+    // Load saved theme
+    const savedTheme = localStorage.getItem('theme');
+    if (savedTheme === 'light') {
+      document.documentElement.setAttribute('data-theme', 'light');
+    }
 
-    // Mouse-tracked glow on project cards
-    document.querySelectorAll('.project-card').forEach(card => {
-      card.addEventListener('mousemove', e => {
-        const r = card.getBoundingClientRect();
-        const x = ((e.clientX - r.left) / r.width  * 100).toFixed(1);
-        const y = ((e.clientY - r.top)  / r.height * 100).toFixed(1);
-        card.style.background = `radial-gradient(circle at ${x}% ${y}%, rgba(124,58,237,.09), var(--surface) 65%)`;
+    // Smooth scroll
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+      anchor.addEventListener('click', function (e) {
+        e.preventDefault();
+        document.querySelector(this.getAttribute('href')).scrollIntoView({ behavior: 'smooth' });
       });
-      card.addEventListener('mouseleave', () => { card.style.background = ''; });
     });
   </script>
-
 </body>
 </html>
