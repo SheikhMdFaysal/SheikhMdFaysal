@@ -455,6 +455,87 @@
       color: var(--accent);
     }
 
+    .live-project-btn {
+      display: flex;
+      align-items: center;
+      gap: .75rem;
+      margin-top: 1.25rem;
+      padding: .85rem 1rem;
+      border-radius: 12px;
+      text-decoration: none;
+      background: linear-gradient(135deg, rgba(124,58,237,.18), rgba(6,182,212,.12));
+      border: 1px solid var(--accent);
+      transition: all .3s ease;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .live-project-btn::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(135deg, var(--accent), var(--accent2));
+      opacity: 0;
+      transition: opacity .3s ease;
+      z-index: 0;
+    }
+
+    .live-project-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 10px 25px rgba(124,58,237,.35);
+    }
+
+    .live-project-btn:hover::before {
+      opacity: 1;
+    }
+
+    .live-project-btn:hover .live-project-label,
+    .live-project-btn:hover .live-project-name {
+      color: #fff;
+    }
+
+    .live-dot {
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      background: #10b981;
+      box-shadow: 0 0 0 0 rgba(16,185,129,.7);
+      animation: liveBlink 1.6s infinite;
+      flex-shrink: 0;
+      position: relative;
+      z-index: 1;
+    }
+
+    @keyframes liveBlink {
+      0%   { box-shadow: 0 0 0 0 rgba(16,185,129,.7); }
+      70%  { box-shadow: 0 0 0 10px rgba(16,185,129,0); }
+      100% { box-shadow: 0 0 0 0 rgba(16,185,129,0); }
+    }
+
+    .live-project-text {
+      display: flex;
+      flex-direction: column;
+      line-height: 1.25;
+      position: relative;
+      z-index: 1;
+    }
+
+    .live-project-label {
+      font-size: .65rem;
+      text-transform: uppercase;
+      letter-spacing: 1.5px;
+      color: var(--accent2);
+      font-weight: 700;
+      transition: color .3s ease;
+    }
+
+    .live-project-name {
+      font-size: .9rem;
+      color: var(--text);
+      font-weight: 600;
+      transition: color .3s ease;
+    }
+
     /* ─── Skills ───────────────────────────────────────────── */
     .skills-grid {
       display: grid;
@@ -1004,7 +1085,7 @@
     <div class="hero-avatar">
       <div class="hero-avatar-ring"></div>
       <div class="hero-avatar-glow"></div>
-      <img src="DP_FaysalSheikhMd.jpg" alt="Sheikh Md Faysal" />
+      <img src="DP_FaysalSheikhMd.jpg?v=3" alt="Sheikh Md Faysal" />
     </div>
     <div class="hero-tag">Jersey City, NJ</div>
     <h1 class="hero-title">
@@ -1112,6 +1193,13 @@
             <a href="https://github.com/SheikhMdFaysal" target="_blank" class="about-card-link">github.com/SheikhMdFaysal</a>
           </div>
         </div>
+        <a href="https://ai-security-frontend.onrender.com/" target="_blank" rel="noopener" class="live-project-btn">
+          <span class="live-dot"></span>
+          <span class="live-project-text">
+            <span class="live-project-label">Live Project</span>
+            <span class="live-project-name">AI Security Testing Platform ↗</span>
+          </span>
+        </a>
       </div>
     </div>
   </div>
