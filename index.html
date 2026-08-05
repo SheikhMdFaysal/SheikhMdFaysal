@@ -761,6 +761,105 @@
       font-weight: 600;
     }
 
+    /* ─── Publications ─────────────────────────────────────── */
+    .publications-list {
+      display: flex;
+      flex-direction: column;
+      gap: 1.25rem;
+    }
+
+    .pub-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-left: 4px solid var(--accent);
+      border-radius: 12px;
+      padding: 1.5rem 1.75rem;
+      transition: all .3s;
+      position: relative;
+    }
+
+    .pub-card:hover {
+      border-color: var(--accent);
+      border-left-color: var(--accent2);
+      transform: translateX(4px);
+      box-shadow: 0 10px 30px rgba(124,58,237,.15);
+    }
+
+    .pub-badge {
+      display: inline-block;
+      padding: .25rem .65rem;
+      background: linear-gradient(135deg, var(--accent), var(--accent2));
+      color: #fff;
+      border-radius: 20px;
+      font-size: .65rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      margin-bottom: .75rem;
+    }
+
+    .pub-title {
+      font-size: 1.05rem;
+      color: var(--text);
+      font-weight: 600;
+      line-height: 1.4;
+      margin-bottom: .6rem;
+    }
+
+    .pub-authors {
+      font-size: .85rem;
+      color: var(--muted);
+      margin-bottom: .35rem;
+      line-height: 1.55;
+    }
+
+    .pub-authors strong {
+      color: var(--accent2);
+      font-weight: 600;
+    }
+
+    .pub-venue {
+      font-size: .8rem;
+      color: var(--muted);
+      margin-bottom: 1rem;
+      line-height: 1.55;
+    }
+
+    .pub-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: .4rem;
+      align-items: center;
+    }
+
+    .pub-tag {
+      padding: .25rem .6rem;
+      background: var(--bg);
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      font-size: .7rem;
+      color: var(--accent2);
+      font-weight: 500;
+    }
+
+    .pub-link {
+      margin-left: auto;
+      padding: .3rem .7rem;
+      background: rgba(6,182,212,.1);
+      border: 1px solid var(--accent2);
+      border-radius: 6px;
+      font-size: .72rem;
+      color: var(--accent2);
+      text-decoration: none;
+      font-weight: 600;
+      transition: all .2s;
+    }
+
+    .pub-link:hover {
+      background: var(--accent2);
+      color: #fff;
+    }
+
     /* ─── Certifications ───────────────────────────────────── */
     .cert-grid {
       display: grid;
@@ -1065,6 +1164,7 @@
         <li><a href="#projects">Projects</a></li>
         <li><a href="#education">Education</a></li>
         <li><a href="#research">Research</a></li>
+        <li><a href="#publications">Publications</a></li>
         <li><a href="#volunteering">Volunteering</a></li>
         <li><a href="#memberships">Memberships</a></li>
         <li><a href="#certifications">Certifications</a></li>
@@ -1414,6 +1514,69 @@
         <p>April 2026</p>
         <p style="margin-top:.5rem;">Researched, analyzed, and pitched an investment thesis on Perplexity Computer — earning Honorable Mention recognition.</p>
       </div>
+    </div>
+  </div>
+
+  <!-- PUBLICATIONS -->
+  <div class="section-wrap" id="publications">
+    <div class="section-label">Peer-Reviewed</div>
+    <h2 class="section-title">Publications</h2>
+    <div class="section-line"></div>
+    <div class="publications-list">
+
+      <div class="pub-card">
+        <div class="pub-badge">Journal Article</div>
+        <h3 class="pub-title">A Framework for Agentic AI-Driven Financial Fraud Detection, Investigation, and Risk Mitigation in Real-Time Payment Ecosystems</h3>
+        <p class="pub-authors">
+          Biswas, B., <strong>Faysal, S.&nbsp;M.</strong>, Das, S., Hanif, A., Akter, T., Rashed, R.&nbsp;A.&nbsp;M., &amp; Shamarukh, S.
+        </p>
+        <p class="pub-venue">
+          <em>International Journal of Computer Information Systems and Industrial Management Applications (IJCISIM)</em>, Vol.&nbsp;18(3s), 2026, pp.&nbsp;1029–1040 · ISSN 2150-7988
+        </p>
+        <div class="pub-tags">
+          <span class="pub-tag">Agentic AI</span>
+          <span class="pub-tag">Fraud Detection</span>
+          <span class="pub-tag">Real-Time Payments</span>
+          <span class="pub-tag">Graph Analytics</span>
+          <a href="https://doi.org/10.70917/ijcisim-2026-2434" target="_blank" rel="noopener" class="pub-link">DOI: 10.70917/ijcisim-2026-2434 ↗</a>
+        </div>
+      </div>
+
+      <div class="pub-card">
+        <div class="pub-badge">Journal Article</div>
+        <h3 class="pub-title">AI-Assisted Identity and Access Threat Detection Using the AITIR Framework for Public-Sector Cybersecurity Environments</h3>
+        <p class="pub-authors">
+          Hossain, M.&nbsp;S., <strong>Faysal, S.&nbsp;M.</strong>, Hemal, M.&nbsp;A.&nbsp;K.&nbsp;P., &amp; Shamarukh, S.
+        </p>
+        <p class="pub-venue">
+          <em>Journal of Computer Science and Technology Studies (JCSTS)</em>, 2025 · Al-Kindi Centre for Research &amp; Development, London, UK · ISSN 2709-104X
+        </p>
+        <div class="pub-tags">
+          <span class="pub-tag">Cybersecurity</span>
+          <span class="pub-tag">Identity & Access</span>
+          <span class="pub-tag">Machine Learning</span>
+          <span class="pub-tag">Public Sector</span>
+          <a href="https://doi.org/10.32996/jcsts" target="_blank" rel="noopener" class="pub-link">DOI: 10.32996/jcsts ↗</a>
+        </div>
+      </div>
+
+      <div class="pub-card">
+        <div class="pub-badge">Conference Paper</div>
+        <h3 class="pub-title">Human-in-the-Loop Learning for Improving Language Model Reliability</h3>
+        <p class="pub-authors">
+          Dandigam, R., Patel, M., Pareek, C.&nbsp;S., <strong>Faysal, S.&nbsp;M.</strong>, Alam, G.&nbsp;T., &amp; Siam, M.&nbsp;A.
+        </p>
+        <p class="pub-venue">
+          Peer-reviewed conference paper on HITL frameworks for LLM reliability — RLHF, active learning, confidence-aware validation, and iterative correction pipelines.
+        </p>
+        <div class="pub-tags">
+          <span class="pub-tag">LLM Reliability</span>
+          <span class="pub-tag">Human-in-the-Loop</span>
+          <span class="pub-tag">RLHF</span>
+          <span class="pub-tag">Trust & Explainability</span>
+        </div>
+      </div>
+
     </div>
   </div>
 
