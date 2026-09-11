@@ -169,7 +169,7 @@ section('Projects')
 role_header('AI Security Testing Platform', ' | MS Capstone – Ada Analytics | MSU', 'Spring 2026')
 bullet('Co-built a web-based platform that safely stress-tests enterprise AI chatbots and large language models (LLMs) before launch — sending hundreds of adversarial prompts to detect data leakage, harmful outputs, and prompt-injection vulnerabilities, then producing a plain-English safety report for business stakeholders.')
 bullet('Led business requirements gathering and documentation across 7 Agile sprints; applied data mining and segmentation for market research and built a 3-year financial model supporting a $10M+ Data and Analytics opportunity analysis.')
-bullet('Live demo: https://ai-security-platform-jlp76.ondigitalocean.app/  |  Repo: github.com/SheikhMdFaysal/enterprise-ai-security-platform')
+bullet('Live demo: https://ai-security-platform-chi.vercel.app/  |  Repo: github.com/SheikhMdFaysal/enterprise-ai-security-platform')
 
 role_header('Amazon Beauty Reviews — Text Mining & Sentiment AI', ' | Advanced Data Mining Research (INFO585) – MSU', 'Fall 2025')
 bullet('Analyzed 5,200+ Amazon product reviews using TF-IDF document similarity, K-Means and hierarchical clustering, and five supervised ML classifiers (Logistic Regression, Naïve Bayes, SVM, Random Forest, Gradient Boosting).')
