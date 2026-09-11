@@ -860,6 +860,37 @@
       color: #fff;
     }
 
+    .wp-card {
+      border-left-color: var(--muted);
+      opacity: 0.92;
+    }
+
+    .wp-card:hover {
+      border-left-color: var(--accent2);
+      opacity: 1;
+    }
+
+    .wp-badge-submitted, .wp-badge-review, .wp-badge-revision, .wp-badge-prep {
+      background: none;
+      color: #fff;
+    }
+
+    .wp-badge-submitted {
+      background: linear-gradient(135deg, #0891b2, #06b6d4);
+    }
+
+    .wp-badge-review {
+      background: linear-gradient(135deg, #d97706, #f59e0b);
+    }
+
+    .wp-badge-revision {
+      background: linear-gradient(135deg, #64748b, #94a3b8);
+    }
+
+    .wp-badge-prep {
+      background: linear-gradient(135deg, #6d28d9, #7c3aed);
+    }
+
     /* ─── Certifications ───────────────────────────────────── */
     .cert-grid {
       display: grid;
@@ -1161,6 +1192,7 @@
         <li><a href="#about">About</a></li>
         <li><a href="#research">Research</a></li>
         <li><a href="#publications">Publications</a></li>
+        <li><a href="#working-papers">Working Papers</a></li>
         <li><a href="#education">Education</a></li>
         <li><a href="#experience">Experience</a></li>
         <li><a href="#projects">Projects</a></li>
@@ -1380,6 +1412,67 @@
           <span class="pub-tag">RLHF</span>
           <span class="pub-tag">Trust & Explainability</span>
           <a href="https://doi.org/10.1109/CONIT69683.2026.11620666" target="_blank" rel="noopener" class="pub-link">DOI: 10.1109/CONIT69683.2026.11620666 ↗</a>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- WORKING PAPERS -->
+  <div class="section-wrap" id="working-papers">
+    <div class="section-label">In Progress</div>
+    <h2 class="section-title">Working Papers &amp; Manuscripts</h2>
+    <div class="section-line"></div>
+    <p style="color:var(--muted); font-size:.85rem; margin-bottom:1.5rem; max-width:640px;">
+      Manuscripts currently in preparation, submitted, or under peer review. Listed separately from Publications above — status shown reflects the most recent submission update.
+    </p>
+    <div class="publications-list">
+
+      <div class="pub-card wp-card">
+        <div class="pub-badge wp-badge-submitted">Submitted</div>
+        <h3 class="pub-title">Cross-Channel Temporal Fusion for Retail Customer Lifetime Value Prediction</h3>
+        <p class="pub-authors"><strong>Faysal, S.&nbsp;M.</strong> (1st author), et al.</p>
+        <p class="pub-venue"><em>Frontiers in Artificial Intelligence</em> · gated BiGRU architecture with ablation and causal validation</p>
+        <div class="pub-tags">
+          <span class="pub-tag">Causal Validation</span>
+          <span class="pub-tag">Deep Learning</span>
+          <span class="pub-tag">Customer Lifetime Value</span>
+        </div>
+      </div>
+
+      <div class="pub-card wp-card">
+        <div class="pub-badge wp-badge-review">Under Review</div>
+        <h3 class="pub-title">TEMPLAR: Verifier-Grounded Template Reasoning for Transaction Fraud Detection</h3>
+        <p class="pub-authors"><strong>Faysal, S.&nbsp;M.</strong> (3rd author), et al.</p>
+        <p class="pub-venue">Springer Nature · calibrated, cost-sensitive fraud verification model</p>
+        <div class="pub-tags">
+          <span class="pub-tag">Fraud Detection</span>
+          <span class="pub-tag">Model Calibration</span>
+          <span class="pub-tag">Financial AI</span>
+        </div>
+      </div>
+
+      <div class="pub-card wp-card">
+        <div class="pub-badge wp-badge-revision">Revision Requested</div>
+        <h3 class="pub-title">Aspect-Aware Ensemble Learning for Multi-Aspect Sentiment Classification</h3>
+        <p class="pub-authors"><strong>Faysal, S.&nbsp;M.</strong> (co-author), et al.</p>
+        <p class="pub-venue">Springer — Discover Analytics</p>
+        <div class="pub-tags">
+          <span class="pub-tag">NLP</span>
+          <span class="pub-tag">Sentiment Analysis</span>
+          <span class="pub-tag">Ensemble Learning</span>
+        </div>
+      </div>
+
+      <div class="pub-card wp-card">
+        <div class="pub-badge wp-badge-prep">In Preparation</div>
+        <h3 class="pub-title">Large Language Model Agents for Autonomous Procurement Workflows</h3>
+        <p class="pub-authors"><strong>Faysal, S.&nbsp;M.</strong> (1st author), et al.</p>
+        <p class="pub-venue">IEEE Conference · LLM agents for enterprise decision support</p>
+        <div class="pub-tags">
+          <span class="pub-tag">LLM Agents</span>
+          <span class="pub-tag">Autonomous Systems</span>
+          <span class="pub-tag">Enterprise AI</span>
         </div>
       </div>
 
